@@ -1,0 +1,32 @@
+version: '3.7'
+
+services:
+  web:
+    image: nginx
+    hostname: webuploadjurnal
+    container_name: webuploadjurnal
+    restart: always
+    volumes:
+      - ./app:/app
+      - ./httpd:/etc/nginx/conf.d:ro
+    ports:
+      - "8080:80"
+    networks:
+      - webnet
+
+  app:
+    build: 
+      context: ./
+    container_name: jurnal
+    hostname: jurnal
+    restart: always
+    volumes:
+      - ./data:/app/data
+    networks:
+      - webnet
+
+networks:
+  webnet:
+    external: 
+      name: webnet
+  
